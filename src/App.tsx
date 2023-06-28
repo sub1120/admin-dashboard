@@ -3,7 +3,9 @@ import React from "react";
 function App() {
   return (
     <div>
-      <header></header>
+      <header>
+        <h1 className="text-4xl">Admin Dashboard</h1>
+      </header>
     </div>
   );
 }
