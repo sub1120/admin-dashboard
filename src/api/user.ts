@@ -1,35 +1,36 @@
 import axiosInstance from "../utils/axiosIntance";
-
-interface IUpdateDetails {
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: number;
-  age?: number;
-}
+import { IUpdateDetails, IUserReponse } from "../utils/types";
 
 // get all users
-export const getAllUsers = async () => {
-  const res = await axiosInstance.get("/users");
-  return res.data;
+const getAllUsers = async () => {
+  const response = await axiosInstance.get<IUserReponse>("/users");
+  return response.data.data;
 };
 
 // get user by id
-export const getUserById = async (id: string) => {
-  const res = await axiosInstance.get(`/user/${id}`);
-  return res.data;
+const getUserById = async (id: string) => {
+  const response = await axiosInstance.get<IUserReponse>(`/user/${id}`);
+  return response.data.data;
 };
 
 // delete user by id
-export const deleteUserById = async (id: string) => {
-  const res = await axiosInstance.delete(`/user/${id}`);
-  return res.data;
+const deleteUserById = async (id: string) => {
+  const response = await axiosInstance.delete<IUserReponse>(`/user/${id}`);
+  return response.data.data;
 };
 
 // update user by id
-export const updateUserById = async (
-  id: string,
-  updateDetails: IUpdateDetails
-) => {
-  const res = await axiosInstance.patch(`/user/${id}`, updateDetails);
-  return res.data;
+const updateUserById = async (id: string, updateDetails: IUpdateDetails) => {
+  const response = await axiosInstance.patch<IUserReponse>(
+    `/user/${id}`,
+    updateDetails
+  );
+  return response.data.data;
+};
+
+export const userAPI = {
+  getAllUsers,
+  getUserById,
+  deleteUserById,
+  updateUserById,
 };
