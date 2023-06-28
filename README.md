@@ -7,7 +7,6 @@ Project Name: Admin Dashboard
 - Frontend - React
 - CSS Framework - Tailwind
 - State Management - Redux Toolkit
-- Route Management - React Router
 
 ## Development Instructions
 
