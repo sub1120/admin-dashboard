@@ -1,9 +1,9 @@
 //Redux state types
 export interface IUser {
-  firstName: string;
-  lastName: string;
-  phoneNumber: number;
-  age: number;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: number;
+  age?: number;
 }
 
 export interface IUserState {
