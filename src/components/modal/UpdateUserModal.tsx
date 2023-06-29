@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
-  addUser,
   fetchUserByID,
   updateUserByID,
 } from "../../redux/users/userSlice";
