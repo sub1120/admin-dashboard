@@ -1,14 +1,18 @@
-import { deleteUserByID } from "../../redux/users/userSlice";
-import { useAppDispatch } from "../../store";
+import { useEffect } from "react";
+import { deleteUserByID, fetchAllUsers } from "../../redux/users/userSlice";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { IUser } from "../../utils/types";
+import Loader from "../icon/Loader";
 
-interface AppProps {
-  users: { [id: string]: IUser };
-}
+const Table = () => {
+  const users = useAppSelector((state) => state.user.users);
+  const loading = useAppSelector((state) => state.user.loading);
 
-const Table = ({ users }: AppProps) => {
-  const usersArray = Object.entries(users);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
 
   const handleRemoveUser = (id: string) => {
     dispatch(deleteUserByID(id));
@@ -40,34 +44,42 @@ const Table = ({ users }: AppProps) => {
           </tr>
         </thead>
         <tbody>
-          {usersArray.map(([id, user]: [string, IUser]) => {
-            return (
-              <tr className="border-b bg-white hover:bg-gray-100" key={id}>
-                <th
-                  scope="row"
-                  className="whitespace-nowrap px-6 py-4 font-medium"
-                >
-                  {user.firstName}
-                </th>
-                <td className="px-6 py-4">{user.lastName}</td>
-                <td className="px-6 py-4">{user.phoneNumber}</td>
-                <td className="px-6 py-4">{user.age}</td>
-                <td className="px-6 py-4 text-right">
-                  <div className="cursor-pointer font-medium text-blue-500 hover:underline">
-                    Edit
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right text-red-500">
-                  <div
-                    className="cursor-pointer font-medium hover:underline"
-                    onClick={() => handleRemoveUser(id)}
+          {loading === "pending" ? (
+            <tr>
+              <th colSpan={6} className="py-20">
+                <Loader />
+              </th>
+            </tr>
+          ) : (
+            Object.entries(users).map(([id, user]: [string, IUser]) => {
+              return (
+                <tr className="border-b bg-white hover:bg-gray-100" key={id}>
+                  <th
+                    scope="row"
+                    className="whitespace-nowrap px-6 py-4 font-medium"
                   >
-                    Remove
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
+                    {user.firstName}
+                  </th>
+                  <td className="px-6 py-4">{user.lastName}</td>
+                  <td className="px-6 py-4">{user.phoneNumber}</td>
+                  <td className="px-6 py-4">{user.age}</td>
+                  <td className="px-6 py-4 text-right">
+                    <a className="cursor-pointer font-medium text-blue-500 hover:underline">
+                      Edit
+                    </a>
+                  </td>
+                  <td className="px-6 py-4 text-right text-red-500">
+                    <a
+                      className="cursor-pointer font-medium hover:underline"
+                      onClick={() => handleRemoveUser(id)}
+                    >
+                      Remove
+                    </a>
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>
