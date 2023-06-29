@@ -1,23 +1,16 @@
-import React, { useEffect } from "react";
 import Table from "./components/table/Table";
-import { useAppSelector, useAppDispatch } from "./store";
-import { fetchAllUsers } from "./redux/users/userSlice";
 
 function App() {
-  const users = useAppSelector((state) => state.user.users);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllUsers());
-  }, [dispatch]);
-
   return (
-    <div>
+    <div className="h-screen bg-slate-100">
       <header>
-        <div className="mx-14 my-14 w-full md:mx-auto md:my-28 md:w-[1000px]">
-          <Table users={users} />
-        </div>
+        <h1 className="pt-10 text-center text-4xl">User Admin Dashboard</h1>
       </header>
+      <main>
+        <div className="mx-10 my-10 w-[80%] md:mx-auto md:my-20 md:w-[1000px]">
+          <Table />
+        </div>
+      </main>
     </div>
   );
 }

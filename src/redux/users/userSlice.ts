@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { userAPI } from "../../api/user";
-import { IUpdateDetails, IUserState } from "../../utils/types";
+import { IUser, IUserState } from "../../utils/types";
 import { normalizeData } from "../../utils/normalize";
 
 const initialState: IUserState = {
   users: {},
   selectedUser: null,
   loading: "idle",
+  loadingUser: "idle",
 };
 
 export const fetchAllUsers = createAsyncThunk(
@@ -25,17 +26,25 @@ export const fetchUserByID = createAsyncThunk(
   }
 );
 
+export const addUser = createAsyncThunk(
+  "users/addUser",
+  async (userDetails: IUser) => {
+    const responseData = await userAPI.createUser(userDetails);
+    return responseData;
+  }
+);
+
 export const deleteUserByID = createAsyncThunk(
   "users/deleteUserByID",
   async (id: string) => {
     const responseData = await userAPI.deleteUserById(id);
-    return { id };
+    return id;
   }
 );
 
 export const updateUserByID = createAsyncThunk(
   "users/updateUserByID",
-  async ({ id, updatedData }: { id: string; updatedData: IUpdateDetails }) => {
+  async ({ id, updatedData }: { id: string; updatedData: IUser }) => {
     const responseData = await userAPI.updateUserById(id, updatedData);
     return responseData;
   }
@@ -60,15 +69,28 @@ export const counterSlice = createSlice({
       })
 
       // get user by id
-
       .addCase(fetchUserByID.pending, (state) => {
-        state.loading = "pending";
+        state.loadingUser = "pending";
       })
       .addCase(fetchUserByID.fulfilled, (state, action) => {
-        //  state.selectedUser = normalizeData(action.payload);
-        state.loading = "succeeded";
+        state.selectedUser = action.payload;
+        state.loadingUser = "succeeded";
       })
       .addCase(fetchUserByID.rejected, (state) => {
+        state.loadingUser = "failed";
+      })
+
+      // add user
+      .addCase(addUser.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        const id = action.payload._id;
+
+        state.users[id] = action.payload;
+        state.loading = "succeeded";
+      })
+      .addCase(addUser.rejected, (state) => {
         state.loading = "failed";
       })
 
@@ -79,7 +101,7 @@ export const counterSlice = createSlice({
       })
       .addCase(deleteUserByID.fulfilled, (state, action) => {
         console.log(action.payload);
-        const { id } = action.payload;
+        const id = action.payload;
 
         delete state.users[id];
         state.loading = "succeeded";
@@ -93,7 +115,9 @@ export const counterSlice = createSlice({
         state.loading = "pending";
       })
       .addCase(updateUserByID.fulfilled, (state, action) => {
-        state.users = {};
+        const id = action.payload._id;
+
+        state.users[id] = action.payload;
         state.loading = "succeeded";
       })
       .addCase(updateUserByID.rejected, (state) => {
