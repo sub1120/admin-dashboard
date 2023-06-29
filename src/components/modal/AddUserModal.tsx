@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAppDispatch } from "../../store";
 import { addUser } from "../../redux/users/userSlice";
+import { isAlphabetical, isMobileNumberValidator, isRequiredValidator, isValidAge } from "../../utils/validators";
 
 interface AppState {
   values: {
@@ -40,7 +41,7 @@ const AddUserModal = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (true) {
+    if (validate()) {
       const userDetails = {
         firstName: formData.values.firstName,
         lastName: formData.values.lastName,
@@ -64,13 +65,87 @@ const AddUserModal = () => {
     });
   };
 
+  const validate = () => {
+
+    let validationMessage =
+      isRequiredValidator(formData.values.firstName) ||
+      isAlphabetical(formData.values.firstName);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          firstName: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    validationMessage =
+      isRequiredValidator(formData.values.lastName) ||
+      isAlphabetical(formData.values.lastName);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          lastName: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    validationMessage =
+    isRequiredValidator(formData.values.age) ||
+      isValidAge(formData.values.age);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          age: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    validationMessage =
+    isRequiredValidator(formData.values.phoneNumber) ||
+      isMobileNumberValidator(formData.values.phoneNumber);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          phoneNumber: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    return true;
+  }
+
+  const handleOpen = () => {
+     setIsModalOpen(true)
+     setFormData(initialState)
+  }
+
   return (
     <>
       <div>
         <button
           type="button"
           className="rounded bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white"
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleOpen}
         >
           Add User
         </button>
@@ -116,7 +191,6 @@ const AddUserModal = () => {
                       name="firstName"
                       id="firstName"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
-                      required
                       value={formData.values.firstName}
                       onChange={handleChange}
                     />
@@ -136,7 +210,6 @@ const AddUserModal = () => {
                       name="lastName"
                       id="lastName"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                      required
                       value={formData.values.lastName}
                       onChange={handleChange}
                     />
@@ -156,7 +229,6 @@ const AddUserModal = () => {
                       name="age"
                       id="age"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
-                      required
                       value={formData.values.age}
                       onChange={handleChange}
                     />
@@ -174,7 +246,6 @@ const AddUserModal = () => {
                       name="phoneNumber"
                       id="phoneNumber"
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 "
-                      required
                       value={formData.values.phoneNumber}
                       onChange={handleChange}
                     />

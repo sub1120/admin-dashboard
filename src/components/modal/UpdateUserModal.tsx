@@ -4,6 +4,7 @@ import {
   fetchUserByID,
   updateUserByID,
 } from "../../redux/users/userSlice";
+import { isAlphabetical, isMobileNumberValidator, isRequiredValidator, isValidAge } from "../../utils/validators";
 
 interface AppState {
   values: {
@@ -56,7 +57,7 @@ const UpdateUserModal = ({ id }: { id: string }) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (true) {
+    if (validate()) {
       const updatedData = {
         firstName: formData.values.firstName,
         lastName: formData.values.lastName,
@@ -69,6 +70,68 @@ const UpdateUserModal = ({ id }: { id: string }) => {
       setIsModalOpen(false);
     }
   };
+
+  const validate = () => {
+
+    let validationMessage = isAlphabetical(formData.values.firstName);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          firstName: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    validationMessage = isAlphabetical(formData.values.lastName);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          lastName: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    validationMessage = isValidAge(formData.values.age);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          age: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    validationMessage = isMobileNumberValidator(formData.values.phoneNumber);
+
+    if (validationMessage) {
+      setFormData({
+        ...formData,
+        errors: {
+          ...formData.errors,
+          phoneNumber: validationMessage || "",
+        },
+      });
+
+      return false;
+    }
+
+    return true;
+  }
+
 
   const handleOpen = () => {
     dispatch(fetchUserByID(id));
