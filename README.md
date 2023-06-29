@@ -1,4 +1,4 @@
-# admin
+# Admin - [Deployed URL](https://649d2718cfdb2b405a830009--cozy-elf-aed6c8.netlify.app/)
 
 Project Name: Admin Dashboard
 
