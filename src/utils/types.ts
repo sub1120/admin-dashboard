@@ -7,7 +7,7 @@ export interface IUser {
 }
 
 export interface IUserState {
-  users: { [id: string]: IUser } | {};
+  users: { [id: string]: IUser };
   selectedUser: IUser | null;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
@@ -28,7 +28,13 @@ export interface IUserResponseData {
   age: number;
 }
 
-export interface IUserReponse {
+// API Reponse types
+export interface IUserResponseOne {
   message: string;
-  data: IUserResponseData | [IUserResponseData];
+  data: IUserResponseData;
+}
+
+export interface IUserResponseMany {
+  message: string;
+  data: [IUserResponseData];
 }

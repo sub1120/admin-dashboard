@@ -1,3 +1,5 @@
+import { deleteUserByID } from "../../redux/users/userSlice";
+import { useAppDispatch } from "../../store";
 import { IUser } from "../../utils/types";
 
 interface AppProps {
@@ -6,6 +8,12 @@ interface AppProps {
 
 const Table = ({ users }: AppProps) => {
   const usersArray = Object.entries(users);
+  const dispatch = useAppDispatch();
+
+  const handleRemoveUser = (id: string) => {
+    dispatch(deleteUserByID(id));
+  };
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-left text-sm text-gray-500">
@@ -50,7 +58,10 @@ const Table = ({ users }: AppProps) => {
                   </div>
                 </td>
                 <td className="px-6 py-4 text-right text-red-500">
-                  <div className="cursor-pointer font-medium hover:underline">
+                  <div
+                    className="cursor-pointer font-medium hover:underline"
+                    onClick={() => handleRemoveUser(id)}
+                  >
                     Remove
                   </div>
                 </td>
