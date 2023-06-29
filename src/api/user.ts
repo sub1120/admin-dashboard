@@ -1,6 +1,5 @@
 import axiosInstance from "../utils/axiosIntance";
 import {
-  IUpdateDetails,
   IUser,
   IUserResponseMany,
   IUserResponseOne,
@@ -34,7 +33,7 @@ const deleteUserById = async (id: string) => {
 };
 
 // update user by id
-const updateUserById = async (id: string, updateDetails: IUpdateDetails) => {
+const updateUserById = async (id: string, updateDetails: IUser) => {
   const response = await axiosInstance.patch<IUserResponseOne>(
     `/user/${id}`,
     updateDetails
