@@ -37,7 +37,7 @@ export const addUser = createAsyncThunk(
 export const deleteUserByID = createAsyncThunk(
   "users/deleteUserByID",
   async (id: string) => {
-    const responseData = await userAPI.deleteUserById(id);
+    await userAPI.deleteUserById(id);
     return id;
   }
 );
