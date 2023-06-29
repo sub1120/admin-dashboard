@@ -42,6 +42,18 @@ const UpdateUserModal = ({ id }: { id: string }) => {
   const dispatch = useAppDispatch();
   const selectedUser = useAppSelector((state) => state.user.selectedUser);
 
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      values: {
+        firstName: selectedUser?.firstName || "",
+        lastName: selectedUser?.lastName || "",
+        phoneNumber: String(selectedUser?.phoneNumber) || "",
+        age: String(selectedUser?.age) || "",
+      },
+    });
+  }, [selectedUser]);
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
