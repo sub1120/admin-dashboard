@@ -2,12 +2,15 @@ import Table from "./components/table/Table";
 
 function App() {
   return (
-    <div>
+    <div className="h-screen bg-slate-100">
       <header>
-        <div className="mx-14 my-14 w-full md:mx-auto md:my-28 md:w-[1000px]">
+        <h1 className="pt-10 text-center text-4xl">User Admin Dashboard</h1>
+      </header>
+      <main>
+        <div className="mx-10 my-10 w-full md:mx-auto md:my-20 md:w-[1000px]">
           <Table />
         </div>
-      </header>
+      </main>
     </div>
   );
 }

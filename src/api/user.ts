@@ -1,6 +1,7 @@
 import axiosInstance from "../utils/axiosIntance";
 import {
   IUpdateDetails,
+  IUser,
   IUserResponseMany,
   IUserResponseOne,
 } from "../utils/types";
@@ -14,6 +15,15 @@ const getAllUsers = async () => {
 // get user by id
 const getUserById = async (id: string) => {
   const response = await axiosInstance.get<IUserResponseOne>(`/user/${id}`);
+  return response.data.data;
+};
+
+// create user
+const createUser = async (userDetails: IUser) => {
+  const response = await axiosInstance.post<IUserResponseOne>(
+    `/user/create`,
+    userDetails
+  );
   return response.data.data;
 };
 
@@ -35,6 +45,7 @@ const updateUserById = async (id: string, updateDetails: IUpdateDetails) => {
 export const userAPI = {
   getAllUsers,
   getUserById,
+  createUser,
   deleteUserById,
   updateUserById,
 };
