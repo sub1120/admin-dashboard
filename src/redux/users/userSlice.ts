@@ -17,7 +17,7 @@ export const fetchAllUsers = createAsyncThunk(
   }
 );
 
-const fetchUserByID = createAsyncThunk(
+export const fetchUserByID = createAsyncThunk(
   "users/fetchUserByID",
   async (id: string) => {
     const responseData = await userAPI.getUserById(id);
@@ -25,15 +25,15 @@ const fetchUserByID = createAsyncThunk(
   }
 );
 
-const deleteUserByID = createAsyncThunk(
+export const deleteUserByID = createAsyncThunk(
   "users/deleteUserByID",
   async (id: string) => {
     const responseData = await userAPI.deleteUserById(id);
-    return responseData;
+    return { id };
   }
 );
 
-const updateUserByID = createAsyncThunk(
+export const updateUserByID = createAsyncThunk(
   "users/updateUserByID",
   async ({ id, updatedData }: { id: string; updatedData: IUpdateDetails }) => {
     const responseData = await userAPI.updateUserById(id, updatedData);
@@ -78,7 +78,10 @@ export const counterSlice = createSlice({
         state.loading = "pending";
       })
       .addCase(deleteUserByID.fulfilled, (state, action) => {
-        state.users = normalizeData(action.payload);
+        console.log(action.payload);
+        const { id } = action.payload;
+
+        delete state.users[id];
         state.loading = "succeeded";
       })
       .addCase(deleteUserByID.rejected, (state) => {
@@ -90,7 +93,7 @@ export const counterSlice = createSlice({
         state.loading = "pending";
       })
       .addCase(updateUserByID.fulfilled, (state, action) => {
-        state.users = normalizeData(action.payload);
+        state.users = {};
         state.loading = "succeeded";
       })
       .addCase(updateUserByID.rejected, (state) => {
