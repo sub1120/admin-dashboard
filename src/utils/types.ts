@@ -10,6 +10,7 @@ export interface IUserState {
   users: { [id: string]: IUser };
   selectedUser: IUser | null;
   loading: "idle" | "pending" | "succeeded" | "failed";
+  loadingUser: "idle" | "pending" | "succeeded" | "failed";
 }
 
 export interface IUpdateDetails {

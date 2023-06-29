@@ -3,7 +3,8 @@ import { deleteUserByID, fetchAllUsers } from "../../redux/users/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { IUser } from "../../utils/types";
 import Loader from "../icon/Loader";
-import FormModal from "../modal/FormModal";
+import AddUserModal from "../modal/AddUserModal";
+import UpdateUserModal from "../modal/UpdateUserModal";
 
 const Table = () => {
   const users = useAppSelector((state) => state.user.users);
@@ -22,7 +23,7 @@ const Table = () => {
   return (
     <>
       <div className="my-5">
-        <FormModal />
+        <AddUserModal />
       </div>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -69,12 +70,10 @@ const Table = () => {
                     <td className="px-6 py-4">{user.lastName}</td>
                     <td className="px-6 py-4">{user.phoneNumber}</td>
                     <td className="px-6 py-4">{user.age}</td>
-                    <td className="px-6 py-4 text-right">
-                      <a className="cursor-pointer font-medium text-blue-500 hover:underline">
-                        Edit
-                      </a>
+                    <td className="py-4">
+                      <UpdateUserModal id={id} />
                     </td>
-                    <td className="px-6 py-4 text-right text-red-500">
+                    <td className="py-4 pr-4 text-right text-red-500">
                       <a
                         className="cursor-pointer font-medium hover:underline"
                         onClick={() => handleRemoveUser(id)}

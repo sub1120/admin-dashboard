@@ -32,7 +32,7 @@ const initialState = {
   },
 };
 
-const FormModal = () => {
+const AddUserModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<AppState>(initialState);
   const dispatch = useAppDispatch();
@@ -198,4 +198,4 @@ const FormModal = () => {
   );
 };
 
-export default FormModal;
+export default AddUserModal;
