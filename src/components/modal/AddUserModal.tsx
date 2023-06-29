@@ -114,7 +114,7 @@ const AddUserModal = () => {
 
       return false;
     }
-    
+
     validationMessage =
     isRequiredValidator(formData.values.phoneNumber) ||
       isMobileNumberValidator(formData.values.phoneNumber);
@@ -130,9 +130,6 @@ const AddUserModal = () => {
 
       return false;
     }
-
-
-
 
     return true;
   }
