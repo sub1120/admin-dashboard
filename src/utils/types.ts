@@ -13,13 +13,6 @@ export interface IUserState {
   loadingUser: "idle" | "pending" | "succeeded" | "failed";
 }
 
-export interface IUpdateDetails {
-  firstName?: string;
-  lastName?: string;
-  phoneNumber?: number;
-  age?: number;
-}
-
 // API Reponse types
 export interface IUserResponseData {
   _id: string;
@@ -37,5 +30,5 @@ export interface IUserResponseOne {
 
 export interface IUserResponseMany {
   message: string;
-  data: [IUserResponseData];
+  data: IUserResponseData[];
 }

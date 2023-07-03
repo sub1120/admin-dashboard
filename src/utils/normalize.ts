@@ -27,7 +27,7 @@ import { IUser, IUserResponseData } from "./types";
 */
 
 export const normalizeData = (
-  data: [IUserResponseData]
+  data: IUserResponseData[]
 ): { [id: string]: IUser } => {
   let updatedData: { [id: string]: IUser } = {};
   data.forEach((item) => {
